@@ -11,15 +11,20 @@ class Solver(aoc.util.Solver):
         self.input = self.input.splitlines()
 
     def find_num(self, line: str) -> int:
+        """
+        Input: line of string
+        Output: an int formed by the first digit and last digit
+        int(first_last)
+        """
         for c in line:
             if c.isdigit():
-                num = int(c) * 10
+                num = [c]
                 break
         for c in line[::-1]:
             if c.isdigit():
-                num += int(c)
+                num.append(c)
                 break
-        return num
+        return int(''.join(num))
 
     def part_one(self) -> int:
         result = 0
@@ -28,70 +33,31 @@ class Solver(aoc.util.Solver):
         return result
 
     def part_two(self) -> int:
-        forward_order = [
-            "nineight",
-            "eightwo",
-            "eighthree",
-            "twone",
-            "one",
-            "two",
-            "three",
-            "four",
-            "five",
-            "six",
-            "seven",
-            "eight",
-            "nine",
-        ]
-        backward_order = [
-            "oneight",
-            "threeight",
-            "fiveight",
-            "sevenine",
-            "one",
-            "two",
-            "three",
-            "four",
-            "five",
-            "six",
-            "seven",
-            "eight",
-            "nine",
-        ]
+        """
+        possible mix up, first 4 for forward, last 4 for backward
+        - nineight
+        - eightwo
+        - eightree
+        - twone
+        - oneight
+        - threeight
+        - fivenight
+        - sevenine
+        """
         replacement = {
-            "nineight": "9ight",
-            "eightwo": "8wo",
-            "eighthree": "8hree",
-            "twone": "2ne",
-            "one": "1",
-            "two": "2",
-            "three": "3",
-            "four": "4",
-            "five": "5",
-            "six": "6",
-            "seven": "7",
-            "eight": "8",
-            "nine": "9",
-            "oneight": "on8",
-            "threeight": "thre8",
-            "fiveight": "fiv8",
-            "sevenine": "seve9",
+            'one': 'o1e',
+            'two': 't2o',
+            'three': 't3e',
+            'four': '4',
+            'five': 'f5e',
+            'six': '6',
+            'seven': 's7n',
+            'eight': 'e8t',
+            'nine': 'n9e'
         }
         result = 0
         for line in self.input:
-            forward = line
-            for key in forward_order:
-                forward = forward.replace(key, replacement[key])
-            for c in forward:
-                if c.isdigit():
-                    num = int(c) * 10
-                    break
-            backward = line
-            for key in backward_order:
-                backward = backward.replace(key, replacement[key])
-            for c in backward[::-1]:
-                if c.isdigit():
-                    num += int(c)
-                    break
-            result += num
+            for key in replacement:
+                line = line.replace(key, replacement[key])
+            result += self.find_num(line)
         return result
