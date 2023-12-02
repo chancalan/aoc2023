@@ -13,13 +13,16 @@ class Solver(aoc.util.Solver):
         super(Solver, self).__init__(input)
         self.games = []
         self.parse_input()
+        self.part1 = 0
+        self.part2 = 0
+        self.solution()
 
     def parse_input(self) -> None:
         self.input = self.input.splitlines()
         for line in self.input:
-            _, sets = line.split(': ')
+            _, sets = line.split(": ")
             game = []
-            match = re.findall(r'(\d+) (\w+),? ?(; )?', sets)
+            match = re.findall(r"(\d+) (\w+),? ?(; )?", sets)
             temp_set = {}
             for item in match:
                 temp_set[item[1]] = int(item[0])
@@ -29,43 +32,28 @@ class Solver(aoc.util.Solver):
             game.append(temp_set)
             self.games.append(game)
 
-    def part_one(self) -> int:
-        target = {
-            'red': 12,
-            'green': 13,
-            'blue': 14
-        }
-        result = 0
+    def solution(self) -> None:
+        # used for part 1
+        target = {"red": 12, "green": 13, "blue": 14}
         for i, game in enumerate(self.games):
-            possible = True
-            for cubes in game:
-                for color in cubes:
-                    if cubes[color] > target[color]:
-                        possible = False
-                        break
-                if not possible:
-                    break
-            else:
-                result += i + 1
-        return result
+            # used for part 2
+            atleast = {"red": 0, "green": 0, "blue": 0}
+            possible = True  # used for part 1
 
-    def part_two(self) -> int:
-        result = 0
-        atleast = {
-            'red': 0,
-            'green': 0,
-            'blue': 0
-        }
-        for game in self.games:
-            atleast['red'] = 0
-            atleast['green'] = 0
-            atleast['blue'] = 0
             for cubes in game:
                 for color in cubes:
                     atleast[color] = max(atleast[color], cubes[color])
+                    if cubes[color] > target[color]:
+                        possible = False
+            if possible:
+                self.part1 += i + 1
             temp = 1
             for color in atleast:
                 temp *= atleast[color]
-            result += temp
+            self.part2 += temp
 
-        return result
+    def part_one(self) -> int:
+        return self.part1
+
+    def part_two(self) -> int:
+        return self.part2

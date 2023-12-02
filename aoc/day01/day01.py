@@ -24,7 +24,7 @@ class Solver(aoc.util.Solver):
             if c.isdigit():
                 num.append(c)
                 break
-        return int(''.join(num))
+        return int("".join(num))
 
     def part_one(self) -> int:
         result = 0
@@ -45,15 +45,15 @@ class Solver(aoc.util.Solver):
         - sevenine
         """
         replacement = {
-            'one': 'o1e',
-            'two': 't2o',
-            'three': 't3e',
-            'four': '4',
-            'five': 'f5e',
-            'six': '6',
-            'seven': 's7n',
-            'eight': 'e8t',
-            'nine': 'n9e'
+            "one": "o1e",
+            "two": "t2o",
+            "three": "t3e",
+            "four": "4",
+            "five": "f5e",
+            "six": "6",
+            "seven": "s7n",
+            "eight": "e8t",
+            "nine": "n9e",
         }
         result = 0
         for line in self.input:
