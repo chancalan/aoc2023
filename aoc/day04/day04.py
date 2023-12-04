@@ -2,7 +2,6 @@
 
 """04: Scratchcards"""
 import aoc.util
-import re
 
 
 # all solutions should subclass the `Solver` exposed by `aoc.util`
@@ -20,8 +19,8 @@ class Solver(aoc.util.Solver):
         for line in self.input:
             _, nums = line.split(": ")
             wins, nums = nums.split(" | ")
-            wins = re.findall(r"(\d+) *", wins)
-            nums = set(re.findall(r"(\d+) *", nums))
+            wins = list(filter(None, wins.split(" ")))
+            nums = set(filter(None, nums.split(" ")))
             self.cards.append([wins, nums])
 
     def part_one(self) -> int:
