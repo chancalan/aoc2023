@@ -19,8 +19,8 @@ class Solver(aoc.util.Solver):
         for line in self.input:
             _, nums = line.split(": ")
             wins, nums = nums.split(" | ")
-            wins = list(filter(None, wins.split(" ")))
-            nums = set(filter(None, nums.split(" ")))
+            wins = wins.split()
+            nums = set(nums.split())
             self.cards.append([wins, nums])
 
     def part_one(self) -> int:
