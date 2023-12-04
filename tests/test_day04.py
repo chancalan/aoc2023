@@ -7,10 +7,10 @@ from aoc.util import Solution
 #############################
 # ======= solutons =========#
 #############################
-EXAMPLE_PART_ONE = 0
-EXAMPLE_PART_TWO = 0
-PART_ONE = 0
-PART_TWO = 0
+EXAMPLE_PART_ONE = 13
+EXAMPLE_PART_TWO = 30
+PART_ONE = 15205
+PART_TWO = 6189740
 
 
 #############################
@@ -57,11 +57,13 @@ def test_real_part_one(real_solver: Solver):
 #############################
 @pytest.mark.example
 def test_example_part_two(example_solver: Solver):
+    example_solver.part_one()
     assert example_solver.part_two() == EXAMPLE_PART_TWO
 
 
 @pytest.mark.real
 def test_real_part_two(real_solver: Solver):
+    real_solver.part_one()
     assert real_solver.part_two() == PART_TWO
 
 
