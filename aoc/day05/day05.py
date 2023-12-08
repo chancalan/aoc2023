@@ -1,6 +1,6 @@
 # You can copy/paste this template to start a new day
 
-"""05: PROBLEM NAME"""
+"""05: If You Give A Seed A Fertilizer"""
 import aoc.util
 
 
@@ -11,19 +11,19 @@ class Solver(aoc.util.Solver):
         # sets self.input to the provided input
         super(Solver, self).__init__(input)
         self.section_to_i = {
-            'seed-to-soil': 0,
-            'soil-to-fertilizer': 1,
-            'fertilizer-to-water': 2,
-            'water-to-light': 3,
-            'light-to-temperature': 4,
-            'temperature-to-humidity': 5,
-            'humidity-to-location': 6
+            "seed-to-soil": 0,
+            "soil-to-fertilizer": 1,
+            "fertilizer-to-water": 2,
+            "water-to-light": 3,
+            "light-to-temperature": 4,
+            "temperature-to-humidity": 5,
+            "humidity-to-location": 6,
         }
         self.seeds = []
         self.maps = [[] for _ in range(7)]
         self.parse_input()
 
-    def parse_input(self):
+    def parse_input(self) -> None:
         self.input = self.input.splitlines()
         index = 0
         section = []
@@ -31,7 +31,7 @@ class Solver(aoc.util.Solver):
             if len(line) == 0:
                 continue
             items = line.split()
-            if items[0] == 'seeds:':
+            if items[0] == "seeds:":
                 self.seeds = [int(i) for i in items[1:]]
             elif items[0] in self.section_to_i:
                 self.maps[index] = section
@@ -56,5 +56,17 @@ class Solver(aoc.util.Solver):
         return min(result)
 
     def part_two(self) -> int:
-        # TODO: actually return the answer
-        return 0
+        result = float("inf")
+        i = 0
+        while i < len(self.seeds):
+            for num in range(self.seeds[i], self.seeds[i] + self.seeds[i + 1]):
+                # each section of map
+                for section in self.maps:
+                    # each line item in each section of map
+                    for item in section:
+                        if item[1] <= num < item[1] + item[2]:
+                            num = item[0] + (num - item[1])
+                            break
+                result = min(result, num)
+            i += 2
+        return result
