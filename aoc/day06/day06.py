@@ -23,19 +23,21 @@ class Solver(aoc.util.Solver):
     def solution(self, rounds) -> int:
         result = 1
         for time, distance in rounds:
-            count = 0
-            prev = 0
-            half = -(-time // 2)
-            for i in range(1, half + 1):
-                gone = i * (time - i)
-                if gone == prev:
-                    count *= 2
-                    break
-                if gone > distance:
-                    prev = gone
-                    count += 1
+            # binary search to find the first millisecond that will beat the record
+            low = 0
+            high = half = time // 2
+            while low <= high:
+                mid = (high + low) // 2
+                if mid * (time - mid) > distance:
+                    high = mid - 1
+                else:
+                    low = mid + 1
+
+            # using some math to calculate the count
+            if half == (time - half):
+                count = ((half - low + 1) * 2) - 1
             else:
-                count = (count * 2) - 1
+                count = (half - low + 1) * 2
             result *= count
         return result
 
