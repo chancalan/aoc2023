@@ -15,14 +15,14 @@ class Solver(aoc.util.Solver):
 
     def parse_input(self) -> None:
         self.input = self.input.splitlines()
-        time = [int(i) for i in self.input[0].split()[1:]]
-        distance = [int(i) for i in self.input[1].split()[1:]]
+        time = self.input[0].split()[1:]
+        distance = self.input[1].split()[1:]
         for i in range(len(time)):
             self.rounds.append((time[i], distance[i]))
 
-    def part_one(self) -> int:
+    def solution(self, rounds) -> int:
         result = 1
-        for time, distance in self.rounds:
+        for time, distance in rounds:
             count = 0
             prev = 0
             half = -(-time // 2)
@@ -39,6 +39,16 @@ class Solver(aoc.util.Solver):
             result *= count
         return result
 
+    def part_one(self) -> int:
+        rounds = []
+        for t, d in self.rounds:
+            rounds.append((int(t), int(d)))
+        return self.solution(rounds)
+
     def part_two(self) -> int:
-        # TODO: actually return the answer
-        return 0
+        time = []
+        distance = []
+        for t, d in self.rounds:
+            time.append(t)
+            distance.append(d)
+        return self.solution([(int("".join(time)), int("".join(distance)))])
