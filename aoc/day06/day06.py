@@ -24,10 +24,18 @@ class Solver(aoc.util.Solver):
         result = 1
         for time, distance in self.rounds:
             count = 0
+            prev = 0
             half = -(-time // 2)
-            for i in range(1, time + 1):
-                if i * (time - i) > distance:
+            for i in range(1, half + 1):
+                gone = i * (time - i)
+                if gone == prev:
+                    count *= 2
+                    break
+                if gone > distance:
+                    prev = gone
                     count += 1
+            else:
+                count = (count * 2) - 1
             result *= count
         return result
 
