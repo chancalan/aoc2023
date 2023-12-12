@@ -16,13 +16,14 @@ class Solver(aoc.util.Solver):
         Output: an int formed by the first digit and last digit
         int(first_last)
         """
+        num = [0, 0]
         for c in line:
             if c.isdigit():
-                num = [c]
+                num[0] = c
                 break
-        for c in line[::-1]:
+        for c in reversed(line):
             if c.isdigit():
-                num.append(c)
+                num[1] = c
                 break
         return int("".join(num))
 
