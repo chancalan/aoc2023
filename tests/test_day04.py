@@ -57,13 +57,11 @@ def test_real_part_one(real_solver: Solver):
 #############################
 @pytest.mark.example
 def test_example_part_two(example_solver: Solver):
-    example_solver.part_one()
     assert example_solver.part_two() == EXAMPLE_PART_TWO
 
 
 @pytest.mark.real
 def test_real_part_two(real_solver: Solver):
-    real_solver.part_one()
     assert real_solver.part_two() == PART_TWO
 
 

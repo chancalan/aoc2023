@@ -13,6 +13,9 @@ class Solver(aoc.util.Solver):
         self.cards = []
         self.parse_input()
         self.num_wins = [0] * len(self.cards)
+        self.part1 = 0
+        self.part2 = 0
+        self.solution()
 
     def parse_input(self) -> None:
         self.input = self.input.splitlines()
@@ -23,7 +26,8 @@ class Solver(aoc.util.Solver):
             nums = set(nums.split())
             self.cards.append([wins, nums])
 
-    def part_one(self) -> int:
+    def solution(self) -> None:
+        # part 1
         points = 0
         for i, (wins, nums) in enumerate(self.cards):
             m = []
@@ -38,12 +42,18 @@ class Solver(aoc.util.Solver):
                 for _ in range(len(m) - 1):
                     temp *= 2
                 points += temp
-        return points
+        self.part1 = points
 
-    def part_two(self) -> int:
+        # part 2
         num_cards = [1] * len(self.cards)
         for i, num in enumerate(self.num_wins):
             original = num_cards[i]
             for card in range(i + 1, i + 1 + num):
                 num_cards[card] += original
-        return sum(num_cards)
+        self.part2 = sum(num_cards)
+
+    def part_one(self) -> int:
+        return self.part1
+
+    def part_two(self) -> int:
+        return self.part2
