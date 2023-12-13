@@ -38,7 +38,9 @@ class Solver(aoc.util.Solver):
                 index = self.section_to_i[items[0]]
                 section = []
             else:  # mapping reading
-                section.append([int(num) for num in items])
+                section.append(
+                    ((int(items[1]), int(items[1]) + int(items[2])), (int(items[0]), int(items[0]) + int(items[2])))
+                )
         self.maps[index] = section
 
     def part_one(self) -> int:
@@ -49,24 +51,31 @@ class Solver(aoc.util.Solver):
             for section in self.maps:
                 # each line item in each section of map
                 for item in section:
-                    if item[1] <= num < item[1] + item[2]:
-                        num = item[0] + (num - item[1])
+                    if item[0][0] <= num < item[0][1]:
+                        num = item[1][0] + (num - item[0][0])
                         break
             result.append(num)
         return min(result)
 
     def part_two(self) -> int:
-        result = float("inf")
-        i = 0
-        while i < len(self.seeds):
-            for num in range(self.seeds[i], self.seeds[i] + self.seeds[i + 1]):
-                # each section of map
-                for section in self.maps:
-                    # each line item in each section of map
-                    for item in section:
-                        if item[1] <= num < item[1] + item[2]:
-                            num = item[0] + (num - item[1])
-                            break
-                result = min(result, num)
-            i += 2
-        return result
+        seeds = []
+        for i in range(0, len(self.seeds), 2):
+            seeds.append((self.seeds[i], self.seeds[i] + self.seeds[i + 1]))
+        for section in self.maps:
+            temp = []
+            while len(seeds) > 0:
+                seed = seeds.pop()
+                for item in section:
+                    temp_start = max(item[0][0], seed[0])
+                    temp_end = min(item[0][1], seed[1])
+                    if temp_start < temp_end:
+                        temp.append((temp_start - item[0][0] + item[1][0], temp_end - item[0][0] + item[1][0]))
+                        if temp_start > seed[0]:
+                            seeds.append((seed[0], temp_start))
+                        if temp_end < seed[1]:
+                            seeds.append((temp_end, seed[1]))
+                        break
+                else:
+                    temp.append(seed)
+            seeds = temp
+        return min(seeds)[0]
