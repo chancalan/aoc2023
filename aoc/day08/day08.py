@@ -27,17 +27,16 @@ class Solver(aoc.util.Solver):
             self.map[key] = (value[1:4], value[6:9])
 
     def part_one(self) -> int:
-        step = 0
         cur = "AAA"
-        for dir in itertools.cycle(self.instructions):
+        for i, dir in enumerate(itertools.cycle(self.instructions)):
             if cur == "ZZZ":
-                return step
+                return i
             if dir == "R":
                 cur = self.map[cur][1]
             else:
                 cur = self.map[cur][0]
-            step += 1
-        return step
+        # shouldn't get here
+        return -1
 
     def part_two(self) -> int:
         """
@@ -47,15 +46,13 @@ class Solver(aoc.util.Solver):
         """
         steps = []
         for start in self.starts:
-            step = 0
             cur = start
-            for dir in itertools.cycle(self.instructions):
+            for i, dir in enumerate(itertools.cycle(self.instructions)):
                 if cur[2] == "Z":
                     break
                 if dir == "R":
                     cur = self.map[cur][1]
                 else:
                     cur = self.map[cur][0]
-                step += 1
-            steps.append(step)
+            steps.append(i)
         return lcm(*steps)
