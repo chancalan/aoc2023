@@ -47,19 +47,15 @@ class Solver(aoc.util.Solver):
         isize = len(self.instructions)
         steps = []
         for start in self.starts:
-            seen = set()
             step = 0
             cur = start
             # while reach_end == 0 and cur not in seen:
-            while True:
+            while cur[2] != "Z":
                 dir = self.instructions[step % isize]
                 if dir == "R":
                     cur = self.map[cur][1]
                 else:
                     cur = self.map[cur][0]
-                seen.add((cur, dir))
                 step += 1
-                if cur[2] == "Z":
-                    steps.append(step)
-                    break
+            steps.append(step)
         return lcm(*steps)
