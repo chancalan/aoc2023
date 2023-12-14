@@ -8,9 +8,9 @@ from aoc.util import Solution
 # ======= solutons =========#
 #############################
 EXAMPLE_PART_ONE = 6
-EXAMPLE_PART_TWO = 0
+EXAMPLE_PART_TWO = 6
 PART_ONE = 15871
-PART_TWO = 0
+PART_TWO = 11283670395017
 
 
 #############################
@@ -23,6 +23,12 @@ def example_input() -> str:
 
 
 @pytest.fixture
+def example2_input() -> str:
+    with open("inputs/day08_example2.txt", "r") as f:
+        return f.read()
+
+
+@pytest.fixture
 def real_input() -> str:
     with open("inputs/day08.txt", "r") as f:
         return f.read()
@@ -31,6 +37,11 @@ def real_input() -> str:
 @pytest.fixture
 def example_solver(example_input: str) -> Solver:
     return Solver(example_input)
+
+
+@pytest.fixture
+def example2_solver(example2_input: str) -> Solver:
+    return Solver(example2_input)
 
 
 @pytest.fixture
@@ -56,8 +67,8 @@ def test_real_part_one(real_solver: Solver):
 # === tests for part two ===#
 #############################
 @pytest.mark.example
-def test_example_part_two(example_solver: Solver):
-    assert example_solver.part_two() == EXAMPLE_PART_TWO
+def test_example_part_two(example2_solver: Solver):
+    assert example2_solver.part_two() == EXAMPLE_PART_TWO
 
 
 @pytest.mark.real
