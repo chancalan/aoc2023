@@ -2,6 +2,7 @@
 
 """08: Haunted Wasteland"""
 import aoc.util
+import itertools
 from math import lcm
 
 
@@ -27,10 +28,10 @@ class Solver(aoc.util.Solver):
 
     def part_one(self) -> int:
         step = 0
-        isize = len(self.instructions)
         cur = "AAA"
-        while cur != "ZZZ":
-            dir = self.instructions[step % isize]
+        for dir in itertools.cycle(self.instructions):
+            if cur == "ZZZ":
+                return step
             if dir == "R":
                 cur = self.map[cur][1]
             else:
@@ -44,14 +45,13 @@ class Solver(aoc.util.Solver):
         meaning from steps from start -> end and end -> end are the same
         so we just need to find the least common multiple (LCM) for each cycle
         """
-        isize = len(self.instructions)
         steps = []
         for start in self.starts:
             step = 0
             cur = start
-            # while reach_end == 0 and cur not in seen:
-            while cur[2] != "Z":
-                dir = self.instructions[step % isize]
+            for dir in itertools.cycle(self.instructions):
+                if cur[2] == "Z":
+                    break
                 if dir == "R":
                     cur = self.map[cur][1]
                 else:
